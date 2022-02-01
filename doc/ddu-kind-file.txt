@@ -1,0 +1,45 @@
+*ddu-kind-word.txt*	word kind for ddu.vim
+
+Author: Shougo <Shougo.Matsu at gmail.com>
+License: MIT license
+
+CONTENTS					*ddu-kind-word-contents*
+
+Introduction		|ddu-kind-word-introduction|
+Install			|ddu-kind-word-install|
+Examples		|ddu-kind-word-examples|
+Actions			|ddu-kind-word-actions|
+Params			|ddu-kind-word-params|
+
+
+==============================================================================
+INTRODUCTION					*ddu-kind-word-introduction*
+
+This kind implements word operations.
+
+
+==============================================================================
+INSTALL						*ddu-kind-word-install*
+
+Please install both "ddu.vim" and "denops.vim".
+
+https://github.com/Shougo/ddu.vim
+https://github.com/vim-denops/denops.vim
+
+
+==============================================================================
+EXAMPLES					*ddu-kind-word-examples*
+>
+
+==============================================================================
+ACTIONS						*ddu-kind-word-actions*
+
+						*ddu-kind-word-action-open*
+open
+		Paste the words.
+
+==============================================================================
+PARAMS						*ddu-kind-word-params*
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:noet:
