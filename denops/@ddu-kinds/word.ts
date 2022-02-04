@@ -2,9 +2,9 @@ import {
   ActionFlags,
   BaseKind,
   DduItem,
-} from "https://deno.land/x/ddu_vim@v0.1.0/types.ts#^";
-import { Denops, fn } from "https://deno.land/x/ddu_vim@v0.1.0/deps.ts";
-import { ActionArguments } from "https://deno.land/x/ddu_vim@v0.1.0/base/kind.ts";
+} from "https://deno.land/x/ddu_vim@v0.6.0/types.ts#^";
+import { Denops, fn } from "https://deno.land/x/ddu_vim@v0.6.0/deps.ts";
+import { ActionArguments } from "https://deno.land/x/ddu_vim@v0.6.0/base/kind.ts";
 
 export type ActionData = {
   text: string;
@@ -18,7 +18,7 @@ export class Kind extends BaseKind<Params> {
     string,
     (args: ActionArguments<Params>) => Promise<ActionFlags>
   > = {
-    open: async (args: { denops: Denops; items: DduItem[] }) => {
+    append: async (args: { denops: Denops; items: DduItem[] }) => {
       for (const item of args.items) {
         const action = item?.action as ActionData;
 

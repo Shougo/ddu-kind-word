@@ -30,13 +30,21 @@ https://github.com/vim-denops/denops.vim
 ==============================================================================
 EXAMPLES					*ddu-kind-word-examples*
 >
+	call ddu#custom#patch_global({
+	    \   'kindOptions': {
+	    \     'word': {
+	    \       'defaultAction': 'append',
+	    \     },
+	    \   }
+	    \ })
+<
 
 ==============================================================================
 ACTIONS						*ddu-kind-word-actions*
 
-						*ddu-kind-word-action-open*
-open
-		Paste the words.
+						*ddu-kind-word-action-append*
+append
+		Paste the words like |p|.
 
 ==============================================================================
 PARAMS						*ddu-kind-word-params*
