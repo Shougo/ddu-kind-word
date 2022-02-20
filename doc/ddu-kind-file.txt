@@ -46,6 +46,10 @@ ACTIONS						*ddu-kind-word-actions*
 append
 		Paste the words like |p|.
 
+						*ddu-kind-word-action-insert*
+insert
+		Paste the words like |P|.
+
 ==============================================================================
 PARAMS						*ddu-kind-word-params*
 
