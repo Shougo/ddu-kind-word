@@ -17,9 +17,9 @@ https://github.com/Shougo/ddu.vim
 ## Configuration
 
 ```vim
-call ddu#custom#patch_global({
-    \   'kindOptions': {
-    \     'word': {
+call ddu#custom#patch_global(#{
+    \   kindOptions: #{
+    \     word: #{
     \       'defaultAction': 'append',
     \     },
     \   }
