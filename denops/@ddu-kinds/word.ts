@@ -24,6 +24,12 @@ export class Kind extends BaseKind<Params> {
       }
       return Promise.resolve(ActionFlags.None);
     },
+    feedkeys: async (args: { denops: Denops; items: DduItem[] }) => {
+      for (const item of args.items) {
+        await feedkeys(args.denops, item);
+      }
+      return Promise.resolve(ActionFlags.None);
+    },
     insert: async (args: { denops: Denops; items: DduItem[] }) => {
       for (const item of args.items) {
         await paste(args.denops, item, "P");
@@ -37,12 +43,13 @@ export class Kind extends BaseKind<Params> {
   }
 }
 
-const paste = async(denops: Denops, item: DduItem, pasteKey: string) => {
+const paste = async (denops: Denops, item: DduItem, pasteKey: string) => {
   const action = item?.action as ActionData;
 
   if (action.text == null) {
     return;
   }
+
   const regType = action.regType ? action.regType : "v";
 
   const oldValue = fn.getreg(denops, '"');
@@ -57,4 +64,15 @@ const paste = async(denops: Denops, item: DduItem, pasteKey: string) => {
 
   // Open folds
   await denops.cmd("normal! zv");
+};
+
+const feedkeys = async (denops: Denops, item: DduItem) => {
+  const action = item?.action as ActionData;
+
+  if (action.text == null) {
+    return;
+  }
+
+  // Use feedkeys() instead
+  await fn.feedkeys(denops, action.text, "n");
 };

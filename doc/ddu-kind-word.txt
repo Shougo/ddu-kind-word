@@ -46,6 +46,11 @@ ACTIONS						*ddu-kind-word-actions*
 append
 		Paste the words like |p|.
 
+						*ddu-kind-word-action-feedkeys*
+feedkeys
+		Use |feedkeys()| to insert the words.
+		It is useful in command line mode.
+
 						*ddu-kind-word-action-insert*
 insert
 		Paste the words like |P|.
