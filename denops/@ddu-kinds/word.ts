@@ -14,7 +14,7 @@ export type ActionData = {
 type Params = Record<never, never>;
 
 export class Kind extends BaseKind<Params> {
-  actions: Record<
+  override actions: Record<
     string,
     (args: ActionArguments<Params>) => Promise<ActionFlags>
   > = {
@@ -38,7 +38,7 @@ export class Kind extends BaseKind<Params> {
     },
   };
 
-  params(): Params {
+  override params(): Params {
     return {};
   }
 }
