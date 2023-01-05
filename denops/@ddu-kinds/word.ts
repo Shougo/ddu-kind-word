@@ -4,11 +4,14 @@ import {
   BaseKind,
   DduItem,
 } from "https://deno.land/x/ddu_vim@v2.0.0/types.ts";
-import { Denops, fn } from "https://deno.land/x/ddu_vim@v2.0.0/deps.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.0.0/deps.ts";
+import { DdcItem } from "https://deno.land/x/ddc_vim@v3.4.0/types.ts";
+
 
 export type ActionData = {
   text: string;
   regType?: string;
+  item?: DdcItem;
 };
 
 type Params = Record<never, never>;
@@ -21,6 +24,24 @@ export class Kind extends BaseKind<Params> {
     append: async (args: { denops: Denops; items: DduItem[] }) => {
       for (const item of args.items) {
         await paste(args.denops, item, "p");
+      }
+      return Promise.resolve(ActionFlags.None);
+    },
+    complete: async (args: { denops: Denops; items: DduItem[] }) => {
+      for (const item of args.items) {
+        await feedkeys(args.denops, item);
+        const completedItem = (item?.action as ActionData)?.item;
+        if (!completedItem) {
+          continue;
+        }
+
+        try {
+          vars.g.set(args.denops, "completed_item", completedItem);
+        } catch(_: unknown) {
+          // Ignore
+        }
+
+        await args.denops.cmd("silent! doautocmd <nomodeline> CompleteDone");
       }
       return Promise.resolve(ActionFlags.None);
     },

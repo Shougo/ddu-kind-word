@@ -46,6 +46,12 @@ ACTIONS						*ddu-kind-word-actions*
 append
 		Paste the words like |p|.
 
+						*ddu-kind-word-action-complete*
+complete
+		It is same with |ddu-kind-word-action-feedkeys| but it fires
+		|CompleteDone| autocmd and changes |v:completed_item|.
+		It is useful for completion.
+
 						*ddu-kind-word-action-feedkeys*
 feedkeys
 		Use |feedkeys()| to insert the words.
