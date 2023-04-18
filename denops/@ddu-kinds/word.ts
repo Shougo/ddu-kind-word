@@ -3,8 +3,8 @@ import {
   ActionFlags,
   BaseKind,
   DduItem,
-} from "https://deno.land/x/ddu_vim@v2.2.0/types.ts";
-import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.2.0/deps.ts";
+} from "https://deno.land/x/ddu_vim@v2.8.3/types.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.8.3/deps.ts";
 import { DdcItem } from "https://deno.land/x/ddc_vim@v3.4.0/types.ts";
 
 
@@ -71,7 +71,7 @@ const paste = async (denops: Denops, item: DduItem, pasteKey: string) => {
     return;
   }
 
-  const regType = action.regType ? action.regType : "v";
+  const regType = action.regType ?? "v";
 
   const oldValue = fn.getreg(denops, '"');
   const oldType = fn.getregtype(denops, '"');
