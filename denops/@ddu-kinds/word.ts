@@ -67,7 +67,7 @@ export class Kind extends BaseKind<Params> {
 const paste = async (denops: Denops, item: DduItem, pasteKey: string) => {
   const action = item?.action as ActionData;
 
-  if (action.text == null) {
+  if (action.text === undefined) {
     return;
   }
 
@@ -90,7 +90,7 @@ const paste = async (denops: Denops, item: DduItem, pasteKey: string) => {
 const feedkeys = async (denops: Denops, item: DduItem) => {
   const action = item?.action as ActionData;
 
-  if (action.text == null) {
+  if (action.text === undefined) {
     return;
   }
 
