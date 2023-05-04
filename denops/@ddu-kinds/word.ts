@@ -2,11 +2,11 @@ import {
   ActionArguments,
   ActionFlags,
   BaseKind,
+  Context,
   DduItem,
-} from "https://deno.land/x/ddu_vim@v2.8.3/types.ts";
-import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.8.3/deps.ts";
+} from "https://deno.land/x/ddu_vim@v2.8.4/types.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.8.4/deps.ts";
 import { DdcItem } from "https://deno.land/x/ddc_vim@v3.4.0/types.ts";
-
 
 export type ActionData = {
   text: string;
@@ -21,9 +21,11 @@ export class Kind extends BaseKind<Params> {
     string,
     (args: ActionArguments<Params>) => Promise<ActionFlags>
   > = {
-    append: async (args: { denops: Denops; items: DduItem[] }) => {
+    append: async (
+      args: { denops: Denops; context: Context; items: DduItem[] },
+    ) => {
       for (const item of args.items) {
-        await paste(args.denops, item, "p");
+        await paste(args.denops, args.context.mode, item, "p");
       }
       return Promise.resolve(ActionFlags.None);
     },
@@ -37,7 +39,7 @@ export class Kind extends BaseKind<Params> {
 
         try {
           vars.g.set(args.denops, "completed_item", completedItem);
-        } catch(_: unknown) {
+        } catch (_: unknown) {
           // Ignore
         }
 
@@ -51,9 +53,11 @@ export class Kind extends BaseKind<Params> {
       }
       return Promise.resolve(ActionFlags.None);
     },
-    insert: async (args: { denops: Denops; items: DduItem[] }) => {
+    insert: async (
+      args: { denops: Denops; Context: Context; items: DduItem[] },
+    ) => {
       for (const item of args.items) {
-        await paste(args.denops, item, "P");
+        await paste(args.denops, args.context.mode, item, "P");
       }
       return Promise.resolve(ActionFlags.None);
     },
@@ -64,7 +68,12 @@ export class Kind extends BaseKind<Params> {
   }
 }
 
-const paste = async (denops: Denops, item: DduItem, pasteKey: string) => {
+const paste = async (
+  denops: Denops,
+  mode: string,
+  item: DduItem,
+  pasteKey: string,
+) => {
   const action = item?.action as ActionData;
 
   if (action.text === undefined) {
@@ -81,6 +90,12 @@ const paste = async (denops: Denops, item: DduItem, pasteKey: string) => {
     await denops.cmd('normal! ""' + pasteKey);
   } finally {
     await fn.setreg(denops, '"', oldValue, oldType);
+  }
+
+  if (mode === "i") {
+    // Cursor move
+    const textLen = await fn.strlen(denops, action.text) as number;
+    await fn.cursor(denops, 0, await fn.col(denops, ".") + textLen);
   }
 
   // Open folds
