@@ -1,26 +1,26 @@
 import {
-  ActionArguments,
+  Actions,
   ActionFlags,
   BaseKind,
   Context,
   DduItem,
-} from "https://deno.land/x/ddu_vim@v2.8.5/types.ts";
-import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.8.5/deps.ts";
+  PreviewContext,
+  Previewer,
+} from "https://deno.land/x/ddu_vim@v2.9.0/types.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.9.0/deps.ts";
 import { DdcItem } from "https://deno.land/x/ddc_vim@v3.4.1/types.ts";
 
 export type ActionData = {
   text: string;
   regType?: string;
   item?: DdcItem;
+  info?: string;
 };
 
 type Params = Record<never, never>;
 
 export class Kind extends BaseKind<Params> {
-  override actions: Record<
-    string,
-    (args: ActionArguments<Params>) => Promise<ActionFlags>
-  > = {
+  override actions: Actions<Params> = {
     append: async (
       args: { denops: Denops; context: Context; items: DduItem[] },
     ) => {
@@ -54,7 +54,7 @@ export class Kind extends BaseKind<Params> {
       return Promise.resolve(ActionFlags.None);
     },
     insert: async (
-      args: { denops: Denops; Context: Context; items: DduItem[] },
+      args: { denops: Denops; context: Context; items: DduItem[] },
     ) => {
       for (const item of args.items) {
         await paste(args.denops, args.context.mode, item, "P");
@@ -62,6 +62,24 @@ export class Kind extends BaseKind<Params> {
       return Promise.resolve(ActionFlags.None);
     },
   };
+
+  // deno-lint-ignore require-await
+  override async getPreviewer(args: {
+    denops: Denops;
+    item: DduItem;
+    actionParams: unknown;
+    previewContext: PreviewContext;
+  }): Promise<Previewer | undefined> {
+    const action = args.item.action as ActionData;
+    if (!action) {
+      return undefined;
+    }
+
+    return {
+      kind: "nofile",
+      contents: (action.info ?? action.text).split("\n"),
+    };
+  }
 
   override params(): Params {
     return {};
