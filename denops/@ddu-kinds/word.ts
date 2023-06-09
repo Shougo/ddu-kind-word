@@ -6,9 +6,9 @@ import {
   DduItem,
   PreviewContext,
   Previewer,
-} from "https://deno.land/x/ddu_vim@v2.9.0/types.ts";
-import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v2.9.0/deps.ts";
-import { DdcItem } from "https://deno.land/x/ddc_vim@v3.4.1/types.ts";
+} from "https://deno.land/x/ddu_vim@v3.0.2/types.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.0.2/deps.ts";
+import { DdcItem } from "https://deno.land/x/ddc_vim@v3.5.1/types.ts";
 
 export type ActionData = {
   text: string;
@@ -63,8 +63,7 @@ export class Kind extends BaseKind<Params> {
     },
   };
 
-  // deno-lint-ignore require-await
-  override async getPreviewer(args: {
+  override getPreviewer(args: {
     denops: Denops;
     item: DduItem;
     actionParams: unknown;
@@ -72,13 +71,13 @@ export class Kind extends BaseKind<Params> {
   }): Promise<Previewer | undefined> {
     const action = args.item.action as ActionData;
     if (!action) {
-      return undefined;
+      return Promise.resolve(undefined);
     }
 
-    return {
+    return Promise.resolve({
       kind: "nofile",
       contents: (action.info ?? action.text).split("\n"),
-    };
+    });
   }
 
   override params(): Params {
