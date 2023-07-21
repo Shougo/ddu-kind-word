@@ -6,9 +6,9 @@ import {
   DduItem,
   PreviewContext,
   Previewer,
-} from "https://deno.land/x/ddu_vim@v3.0.2/types.ts";
-import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.0.2/deps.ts";
-import { DdcItem } from "https://deno.land/x/ddc_vim@v3.5.1/types.ts";
+} from "https://deno.land/x/ddu_vim@v3.4.3/types.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.4.3/deps.ts";
+import { DdcItem } from "https://deno.land/x/ddc_vim@v3.9.0/types.ts";
 
 export type ActionData = {
   text: string;

@@ -3,7 +3,7 @@
 Author: Shougo <Shougo.Matsu at gmail.com>
 License: MIT license
 
-CONTENTS					*ddu-kind-word-contents*
+CONTENTS                                              *ddu-kind-word-contents*
 
 Introduction		|ddu-kind-word-introduction|
 Install			|ddu-kind-word-install|
@@ -13,13 +13,13 @@ Params			|ddu-kind-word-params|
 
 
 ==============================================================================
-INTRODUCTION					*ddu-kind-word-introduction*
+INTRODUCTION                                      *ddu-kind-word-introduction*
 
 This kind implements word operations.
 
 
 ==============================================================================
-INSTALL						*ddu-kind-word-install*
+INSTALL                                                *ddu-kind-word-install*
 
 Please install both "ddu.vim" and "denops.vim".
 
@@ -28,7 +28,7 @@ https://github.com/vim-denops/denops.vim
 
 
 ==============================================================================
-EXAMPLES					*ddu-kind-word-examples*
+EXAMPLES                                              *ddu-kind-word-examples*
 >
 	call ddu#custom#patch_global(#{
 	    \   kindOptions: #{
@@ -40,29 +40,29 @@ EXAMPLES					*ddu-kind-word-examples*
 <
 
 ==============================================================================
-ACTIONS						*ddu-kind-word-actions*
+ACTIONS                                                *ddu-kind-word-actions*
 
-						*ddu-kind-word-action-append*
+                                                 *ddu-kind-word-action-append*
 append
 		Paste the words like |p|.
 
-						*ddu-kind-word-action-complete*
+                                               *ddu-kind-word-action-complete*
 complete
 		It is same with |ddu-kind-word-action-feedkeys| but it fires
 		|CompleteDone| autocmd and changes |v:completed_item|.
 		It is useful for completion.
 
-						*ddu-kind-word-action-feedkeys*
+                                               *ddu-kind-word-action-feedkeys*
 feedkeys
 		Use |feedkeys()| to insert the words.
 		It is useful in command line mode.
 
-						*ddu-kind-word-action-insert*
+                                                 *ddu-kind-word-action-insert*
 insert
 		Paste the words like |P|.
 
 ==============================================================================
-PARAMS						*ddu-kind-word-params*
+PARAMS                                                  *ddu-kind-word-params*
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:noet:fen:noet:
