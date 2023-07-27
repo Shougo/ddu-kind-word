@@ -99,14 +99,13 @@ const paste = async (
 
   const regType = action.regType ?? "v";
 
-  const oldValue = fn.getreg(denops, '"');
-  const oldType = fn.getregtype(denops, '"');
+  const oldReg = await fn.getreginfo(denops, '"');
 
   await fn.setreg(denops, '"', action.text, regType);
   try {
     await denops.cmd('normal! ""' + pasteKey);
   } finally {
-    await fn.setreg(denops, '"', oldValue, oldType);
+    await fn.setreg(denops, '"', oldReg);
   }
 
   if (mode === "i") {
