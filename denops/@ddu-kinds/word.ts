@@ -6,9 +6,9 @@ import {
   DduItem,
   PreviewContext,
   Previewer,
-} from "https://deno.land/x/ddu_vim@v3.4.3/types.ts";
-import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.4.3/deps.ts";
-import { DdcItem } from "https://deno.land/x/ddc_vim@v3.9.0/types.ts";
+} from "https://deno.land/x/ddu_vim@v3.5.0/types.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.5.0/deps.ts";
+import { DdcItem } from "https://deno.land/x/ddc_vim@v4.0.4/types.ts";
 
 export type ActionData = {
   text: string;
@@ -17,7 +17,7 @@ export type ActionData = {
   info?: string;
 };
 
-type Params = Record<never, never>;
+type Params = Record<string, never>;
 
 export class Kind extends BaseKind<Params> {
   override actions: Actions<Params> = {
