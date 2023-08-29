@@ -6,8 +6,8 @@ import {
   DduItem,
   PreviewContext,
   Previewer,
-} from "https://deno.land/x/ddu_vim@v3.5.0/types.ts";
-import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.5.0/deps.ts";
+} from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
+import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
 import { DdcItem } from "https://deno.land/x/ddc_vim@v4.0.4/types.ts";
 
 export type ActionData = {
@@ -21,45 +21,76 @@ type Params = Record<string, never>;
 
 export class Kind extends BaseKind<Params> {
   override actions: Actions<Params> = {
-    append: async (
-      args: { denops: Denops; context: Context; items: DduItem[] },
-    ) => {
-      for (const item of args.items) {
-        await paste(args.denops, args.context.mode, item, "p");
-      }
-      return Promise.resolve(ActionFlags.None);
+    append: {
+      description: "Paste the words like |p|.",
+      callback: async (
+        args: { denops: Denops; context: Context; items: DduItem[] },
+      ) => {
+        for (const item of args.items) {
+          await paste(args.denops, args.context.mode, item, "p");
+        }
+        return Promise.resolve(ActionFlags.None);
+      },
     },
-    complete: async (args: { denops: Denops; items: DduItem[] }) => {
-      for (const item of args.items) {
-        await feedkeys(args.denops, item);
-        const completedItem = (item?.action as ActionData)?.item;
-        if (!completedItem) {
-          continue;
+    complete: {
+      description: "It is same with |ddu-kind-word-action-feedkeys| " +
+        "but it fires |CompleteDone| autocmd and changes |v:completed_item|.",
+      callback: async (args: { denops: Denops; items: DduItem[] }) => {
+        for (const item of args.items) {
+          await feedkeys(args.denops, item);
+          const completedItem = (item?.action as ActionData)?.item;
+          if (!completedItem) {
+            continue;
+          }
+
+          try {
+            vars.g.set(args.denops, "completed_item", completedItem);
+          } catch (_: unknown) {
+            // Ignore
+          }
+
+          await args.denops.cmd("silent! doautocmd <nomodeline> CompleteDone");
+        }
+        return Promise.resolve(ActionFlags.None);
+      },
+    },
+    feedkeys: {
+      description: "Use |feedkeys()| to insert the words.",
+      callback: async (args: { denops: Denops; items: DduItem[] }) => {
+        for (const item of args.items) {
+          await feedkeys(args.denops, item);
+        }
+        return Promise.resolve(ActionFlags.None);
+      },
+    },
+    insert: {
+      description: "Paste the words like |P|.",
+      callback: async (
+        args: { denops: Denops; context: Context; items: DduItem[] },
+      ) => {
+        for (const item of args.items) {
+          await paste(args.denops, args.context.mode, item, "P");
+        }
+        return Promise.resolve(ActionFlags.None);
+      },
+    },
+    yank: {
+      description: "Yank the words.",
+      callback: async (args: { denops: Denops; items: DduItem[] }) => {
+        for (const item of args.items) {
+          const action = item?.action as ActionData;
+
+          await fn.setreg(args.denops, '"', action.text, "v");
+          await fn.setreg(
+            args.denops,
+            await vars.v.get(args.denops, "register"),
+            action.text,
+            "v",
+          );
         }
 
-        try {
-          vars.g.set(args.denops, "completed_item", completedItem);
-        } catch (_: unknown) {
-          // Ignore
-        }
-
-        await args.denops.cmd("silent! doautocmd <nomodeline> CompleteDone");
-      }
-      return Promise.resolve(ActionFlags.None);
-    },
-    feedkeys: async (args: { denops: Denops; items: DduItem[] }) => {
-      for (const item of args.items) {
-        await feedkeys(args.denops, item);
-      }
-      return Promise.resolve(ActionFlags.None);
-    },
-    insert: async (
-      args: { denops: Denops; context: Context; items: DduItem[] },
-    ) => {
-      for (const item of args.items) {
-        await paste(args.denops, args.context.mode, item, "P");
-      }
-      return Promise.resolve(ActionFlags.None);
+        return ActionFlags.Persist;
+      },
     },
   };
 

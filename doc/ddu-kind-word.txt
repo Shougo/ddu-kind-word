@@ -61,6 +61,10 @@ feedkeys
 insert
 		Paste the words like |P|.
 
+                                                   *ddu-kind-word-action-yank*
+yank
+		Yank the words.
+
 ==============================================================================
 PARAMS                                                  *ddu-kind-word-params*
 
