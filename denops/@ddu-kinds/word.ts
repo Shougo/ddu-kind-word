@@ -8,7 +8,7 @@ import {
   Previewer,
 } from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
 import { Denops, fn, vars } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
-import { DdcItem } from "https://deno.land/x/ddc_vim@v4.0.5/types.ts";
+import { DdcItem } from "https://deno.land/x/ddc_vim@v4.1.0/types.ts";
 
 export type ActionData = {
   text: string;
