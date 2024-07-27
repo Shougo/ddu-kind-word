@@ -8,7 +8,7 @@ import {
   type PreviewContext,
   type Previewer,
 } from "jsr:@shougo/ddu-vim@5.0.0-pre10/types";
-import type { DdcItem } from "jsr:@shougo/ddc-vim@v6.0.0-pre9/types";
+import type { DdcItem } from "jsr:@shougo/ddc-vim@6.0.0-pre9/types";
 
 import * as fn from "jsr:@denops/std@7.0.0/function";
 import * as vars from "jsr:@denops/std@7.0.0/variable";
