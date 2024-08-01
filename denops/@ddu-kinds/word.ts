@@ -10,8 +10,8 @@ import {
 } from "jsr:@shougo/ddu-vim@5.0.0/types";
 import type { DdcItem } from "jsr:@shougo/ddc-vim@6.0.0/types";
 
-import * as fn from "jsr:@denops/std@7.0.0/function";
-import * as vars from "jsr:@denops/std@7.0.0/variable";
+import * as fn from "jsr:@denops/std@7.0.1/function";
+import * as vars from "jsr:@denops/std@7.0.1/variable";
 
 export type ActionData = {
   text: string;
