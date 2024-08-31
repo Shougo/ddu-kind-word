@@ -8,7 +8,7 @@ import {
   type Previewer,
 } from "jsr:@shougo/ddu-vim@~6.1.0/types";
 import { BaseKind } from "jsr:@shougo/ddu-vim@~6.1.0/kind";
-import type { DdcItem } from "jsr:@shougo/ddc-vim@~6.0.0/types";
+import type { DdcItem } from "jsr:@shougo/ddc-vim@~7.0.0/types";
 
 import type { Denops } from "jsr:@denops/std@~7.1.0";
 import * as fn from "jsr:@denops/std@~7.1.0/function";
