@@ -6,13 +6,14 @@ import {
   type DduItem,
   type PreviewContext,
   type Previewer,
-} from "jsr:@shougo/ddu-vim@~6.1.0/types";
-import { BaseKind } from "jsr:@shougo/ddu-vim@~6.1.0/kind";
-import type { DdcItem } from "jsr:@shougo/ddc-vim@~7.0.0/types";
+} from "jsr:@shougo/ddu-vim@~10.3.0/types";
+import { BaseKind } from "jsr:@shougo/ddu-vim@~10.3.0/kind";
+import type { DdcItem } from "jsr:@shougo/ddc-vim@~9.4.0/types";
 
-import type { Denops } from "jsr:@denops/std@~7.1.0";
-import * as fn from "jsr:@denops/std@~7.1.0/function";
-import * as vars from "jsr:@denops/std@~7.1.0/variable";
+import type { Denops } from "jsr:@denops/std@~7.5.0";
+import * as fn from "jsr:@denops/std@~7.5.0/function";
+import * as vars from "jsr:@denops/std@~7.5.0/variable";
+import { ensure } from "jsr:@denops/std@~7.5.0/buffer";
 
 export type ActionData = {
   text: string;
@@ -28,7 +29,9 @@ export const WordActions: Actions<Params> = {
       args: { denops: Denops; context: Context; items: DduItem[] },
     ) => {
       for (const item of args.items) {
-        await paste(args.denops, args.context.mode, item, "p");
+        await ensure(args.denops, args.context.bufNr, async () => {
+          await paste(args.denops, args.context.mode, item, "p");
+        });
       }
       return Promise.resolve(ActionFlags.None);
     },
@@ -70,7 +73,9 @@ export const WordActions: Actions<Params> = {
       args: { denops: Denops; context: Context; items: DduItem[] },
     ) => {
       for (const item of args.items) {
-        await paste(args.denops, args.context.mode, item, "P");
+        await ensure(args.denops, args.context.bufNr, async () => {
+          await paste(args.denops, args.context.mode, item, "P");
+        });
       }
       return Promise.resolve(ActionFlags.None);
     },
