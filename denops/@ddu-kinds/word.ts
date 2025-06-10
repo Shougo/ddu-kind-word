@@ -13,7 +13,6 @@ import type { DdcItem } from "jsr:@shougo/ddc-vim@~9.4.0/types";
 import type { Denops } from "jsr:@denops/std@~7.5.0";
 import * as fn from "jsr:@denops/std@~7.5.0/function";
 import * as vars from "jsr:@denops/std@~7.5.0/variable";
-import { ensure } from "jsr:@denops/std@~7.5.0/buffer";
 
 export type ActionData = {
   text: string;
@@ -29,9 +28,7 @@ export const WordActions: Actions<Params> = {
       args: { denops: Denops; context: Context; items: DduItem[] },
     ) => {
       for (const item of args.items) {
-        await ensure(args.denops, args.context.bufNr, async () => {
-          await paste(args.denops, args.context.mode, item, "p");
-        });
+        await paste(args.denops, args.context.mode, item, "p");
       }
       return Promise.resolve(ActionFlags.None);
     },
@@ -73,9 +70,7 @@ export const WordActions: Actions<Params> = {
       args: { denops: Denops; context: Context; items: DduItem[] },
     ) => {
       for (const item of args.items) {
-        await ensure(args.denops, args.context.bufNr, async () => {
-          await paste(args.denops, args.context.mode, item, "P");
-        });
+        await paste(args.denops, args.context.mode, item, "P");
       }
       return Promise.resolve(ActionFlags.None);
     },
