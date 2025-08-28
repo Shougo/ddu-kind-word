@@ -6,13 +6,13 @@ import {
   type DduItem,
   type PreviewContext,
   type Previewer,
-} from "jsr:@shougo/ddu-vim@~10.3.0/types";
-import { BaseKind } from "jsr:@shougo/ddu-vim@~10.3.0/kind";
-import type { DdcItem } from "jsr:@shougo/ddc-vim@~9.4.0/types";
+} from "@shougo/ddu-vim/types";
+import { BaseKind } from "@shougo/ddu-vim/kind";
+import type { DdcItem } from "@shougo/ddc-vim/types";
 
-import type { Denops } from "jsr:@denops/std@~7.5.0";
-import * as fn from "jsr:@denops/std@~7.5.0/function";
-import * as vars from "jsr:@denops/std@~7.5.0/variable";
+import type { Denops } from "@denops/std";
+import * as fn from "@denops/std/function";
+import * as vars from "@denops/std/variable";
 
 export type ActionData = {
   text: string;
