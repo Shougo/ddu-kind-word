@@ -8,6 +8,7 @@ CONTENTS                                              *ddu-kind-word-contents*
 Introduction		|ddu-kind-word-introduction|
 Install			|ddu-kind-word-install|
 Examples		|ddu-kind-word-examples|
+Action data		|ddu-kind-word-action-data|
 Actions			|ddu-kind-word-actions|
 Params			|ddu-kind-word-params|
 
@@ -38,6 +39,25 @@ EXAMPLES                                              *ddu-kind-word-examples*
 	    \   }
 	    \ })
 <
+
+==============================================================================
+ACTION DATA                                        *ddu-kind-word-action-data*
+
+This kind expects item.action to be a dictionary with the following fields.
+For the TypeScript type definition, see:
+https://jsr.io/@shougo/ddu-kind-word/doc/~/ActionData
+
+text		(string)
+		Text to paste or feedkeys.
+
+regType		(string)
+		Register type used for paste/insert.  (Default: "v")
+
+item		(object)
+		Completion item for |CompleteDone| autocmd.
+
+info		(string)
+		Preview content.  If omitted, text is used.
 
 ==============================================================================
 ACTIONS                                                *ddu-kind-word-actions*

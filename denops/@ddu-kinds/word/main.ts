@@ -14,10 +14,17 @@ import type { Denops } from "@denops/std";
 import * as fn from "@denops/std/function";
 import * as vars from "@denops/std/variable";
 
+/**
+ * Action data for word kind items.
+ */
 export type ActionData = {
+  /** Text to paste/feedkeys. */
   text: string;
+  /** Register type used by paste/insert. */
   regType?: string;
+  /** Completed item for |CompleteDone| autocmd. */
   item?: DdcItem;
+  /** Preview content. If omitted, text is used. */
   info?: string;
 };
 
