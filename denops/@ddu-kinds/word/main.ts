@@ -37,7 +37,7 @@ export const WordActions: Actions<Params> = {
       for (const item of args.items) {
         await paste(args.denops, args.context.mode, item, "p");
       }
-      return Promise.resolve(ActionFlags.None);
+      return ActionFlags.None;
     },
   },
   complete: {
@@ -45,30 +45,31 @@ export const WordActions: Actions<Params> = {
       "but it fires |CompleteDone| autocmd and changes |v:completed_item|.",
     callback: async (args: { denops: Denops; items: DduItem[] }) => {
       for (const item of args.items) {
-        await feedkeys(args.denops, item);
+        await feedWord(args.denops, item);
+
         const completedItem = (item?.action as ActionData)?.item;
         if (!completedItem) {
           continue;
         }
 
         try {
-          vars.g.set(args.denops, "completed_item", completedItem);
+          await vars.g.set(args.denops, "completed_item", completedItem);
         } catch (_: unknown) {
           // Ignore
         }
 
         await args.denops.cmd("silent! doautocmd <nomodeline> CompleteDone");
       }
-      return Promise.resolve(ActionFlags.None);
+      return ActionFlags.None;
     },
   },
   feedkeys: {
     description: "Use |feedkeys()| to insert the words.",
     callback: async (args: { denops: Denops; items: DduItem[] }) => {
       for (const item of args.items) {
-        await feedkeys(args.denops, item);
+        await feedWord(args.denops, item);
       }
-      return Promise.resolve(ActionFlags.None);
+      return ActionFlags.None;
     },
   },
   insert: {
@@ -79,7 +80,7 @@ export const WordActions: Actions<Params> = {
       for (const item of args.items) {
         await paste(args.denops, args.context.mode, item, "P");
       }
-      return Promise.resolve(ActionFlags.None);
+      return ActionFlags.None;
     },
   },
   yank: {
@@ -136,39 +137,41 @@ const paste = async (
   pasteKey: string,
 ) => {
   const action = item?.action as ActionData;
-
-  if (action.text === undefined) {
+  if (!action?.text) {
     return;
   }
 
   const regType = action.regType ?? "v";
-
   const oldReg = await fn.getreginfo(denops, '"');
 
-  await fn.setreg(denops, '"', action.text, regType);
   try {
-    await denops.cmd('normal! ""' + pasteKey);
+    await fn.setreg(denops, '"', action.text, regType);
+    await denops.cmd(`normal! ""${pasteKey}`);
   } finally {
     await fn.setreg(denops, '"', oldReg);
   }
 
+  await postPaste(denops, mode, action.text);
+};
+
+const postPaste = async (
+  denops: Denops,
+  mode: string,
+  text: string,
+) => {
   if (mode === "i") {
-    // Cursor move
-    const textLen = await fn.strlen(denops, action.text) as number;
+    const textLen = await fn.strlen(denops, text) as number;
     await fn.cursor(denops, 0, await fn.col(denops, ".") + textLen);
   }
 
-  // Open folds
   await denops.cmd("normal! zv");
 };
 
-const feedkeys = async (denops: Denops, item: DduItem) => {
+const feedWord = async (denops: Denops, item: DduItem) => {
   const action = item?.action as ActionData;
-
-  if (action.text === undefined) {
+  if (!action?.text) {
     return;
   }
 
-  // Use feedkeys() instead
   await fn.feedkeys(denops, action.text, "n");
 };
