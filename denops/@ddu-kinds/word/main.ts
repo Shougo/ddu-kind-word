@@ -13,6 +13,7 @@ import type { DdcItem } from "@shougo/ddc-vim/types";
 import type { Denops } from "@denops/std";
 import * as fn from "@denops/std/function";
 import * as vars from "@denops/std/variable";
+import * as op from "@denops/std/option";
 
 /**
  * Action data for word kind items.
@@ -137,7 +138,8 @@ const paste = async (
   pasteKey: string,
 ) => {
   const action = item?.action as ActionData;
-  if (!action?.text) {
+  const modifiable = await op.modifiable.getLocal(denops);
+  if (!action?.text || !modifiable) {
     return;
   }
 
