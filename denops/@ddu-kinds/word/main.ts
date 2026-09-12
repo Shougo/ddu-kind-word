@@ -54,7 +54,7 @@ export const WordActions: Actions<Params> = {
         }
 
         try {
-          await vars.g.set(args.denops, "completed_item", completedItem);
+          await vars.v.set(args.denops, "completed_item", completedItem);
         } catch (_: unknown) {
           // Ignore
         }
