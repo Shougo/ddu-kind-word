@@ -68,8 +68,9 @@ append
 
                                                *ddu-kind-word-action-complete*
 complete
-		It is same with |ddu-kind-word-action-feedkeys| but it fires
-		|CompleteDone| autocmd and changes |v:completed_item|.
+		It is same with |ddu-kind-word-action-feedkeys|.
+		The |CompleteDone| autocmd is fired when item is specified.
+		It changes |v:completed_item|.
 		It is useful for completion.
 
                                                *ddu-kind-word-action-feedkeys*
