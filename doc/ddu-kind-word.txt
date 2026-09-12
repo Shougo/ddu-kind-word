@@ -47,14 +47,16 @@ This kind expects item.action to be a dictionary with the following fields.
 For the TypeScript type definition, see:
 https://jsr.io/@shougo/ddu-kind-word/doc/~/ActionData
 
-text		(string)
+text		(string) (Required)
 		Text to paste or feedkeys.
 
 regType		(string)
-		Register type used for paste/insert.  (Default: "v")
+		Register type used by |ddu-kind-word-action-append| and
+		|ddu-kind-word-action-insert|.  (Default: "v")
 
 item		(object)
-		Completion item for |CompleteDone| autocmd.
+		Completion item of |ddc.vim|, used by the |CompleteDone|
+		autocmd.
 
 info		(string)
 		Preview content.  If omitted, text is used.
